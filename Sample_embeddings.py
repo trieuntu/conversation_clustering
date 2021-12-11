@@ -61,7 +61,7 @@ print("Loading PhoBERT model....")
 phobert, tokenizer = load_bert()
 print("Finished loading model!")
 #load data
-corpus=_load_pkl('./ntu_data/Sample_dataset.pkl') 
+corpus=_load_pkl('data/Sample_dataset.pkl') 
 lines=corpus  # take all sentences
 print("Preparing to create features from BERT.....")
 cls_embeddings = []
@@ -90,7 +90,7 @@ clustering_model = KMeans(n_clusters=num_clusters,random_state=1)
 # Fit the embedding with kmeans clustering.
 clustering_model.fit(result)
 cluster_assignment = clustering_model.labels_
-labels=_load_pkl('./ntu_data/label_Sample_dataset.pkl')
+labels=_load_pkl('data/label_Sample_dataset.pkl')
 print(metrics.v_measure_score(labels,cluster_assignment)*100)
 clustered_sentences = [[] for i in range(num_clusters)]
 for sentence_id, cluster_id in enumerate(cluster_assignment):

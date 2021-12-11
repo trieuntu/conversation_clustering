@@ -34,7 +34,7 @@ def simple_tokenize(source_str, token_delim=' ', seq_delim='\n'):
     return filter(None, re.split(token_delim + '|' + seq_delim, source_str))
 
 #load data
-corpus=_load_pkl('./ntu_data/train_wiki.pkl')
+corpus=_load_pkl('data/train_wiki.pkl')
 def create_vocab (v_text):
   s=("\n".join(v_text))
   counter = nlp.data.count_tokens(simple_tokenize(s))
@@ -67,7 +67,7 @@ for dim in range(2,10):
   clustering_model = KMeans(n_clusters=num_clusters,random_state=1)
   clustering_model.fit(result)
   cluster_assignment = clustering_model.labels_
-  labels=_load_pkl('./ntu_data/label_wiki.pkl')
+  labels=_load_pkl('data/label_wiki.pkl')
   Vscore=round(metrics.v_measure_score(labels,cluster_assignment),2)
   silhouette_coef=round(metrics.silhouette_score(result,cluster_assignment),2)
   print('V Score= ',Vscore, ' Silhouette Score= ', silhouette_coef, \

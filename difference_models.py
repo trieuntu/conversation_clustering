@@ -44,7 +44,7 @@ print("Loading new model....")
 phobert, tokenizer = load_bert()
 print("Finished loading model!")
 #load data
-corpus=_load_pkl('./ntu_data/train_wiki.pkl')
+corpus=_load_pkl('data/train_wiki.pkl')
 lines=corpus  
 print("Preparing to create features .....")
 ## define interval
@@ -70,7 +70,7 @@ for dim in range(2,150):
   clustering_model = KMeans(n_clusters=num_clusters,random_state=1)
   clustering_model.fit(result)
   cluster_assignment = clustering_model.labels_
-  labels=_load_pkl('./ntu_data/label_wiki.pkl')
+  labels=_load_pkl('data/label_wiki.pkl')
   Vscore=round(metrics.v_measure_score(labels,cluster_assignment),2)
   silhouette_coef=round(metrics.silhouette_score(result,cluster_assignment),2)
   print('V Score= ',Vscore, ' Silhouette Score= ', silhouette_coef, \
