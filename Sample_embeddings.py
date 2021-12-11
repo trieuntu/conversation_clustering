@@ -66,9 +66,9 @@ lines=corpus  # take all sentences
 print("Preparing to create features from BERT.....")
 cls_embeddings = []
 ## define interval
-interval=500
+interval=50
 ##use bert for extracting features
-corpus_embeddings = make_bert_features(lines)
+corpus_embeddings = make_bert_features(lines[:interval])
 for i in range (int(len(lines)/interval)-1):
     j=(i+1)*interval
     k=j+interval
