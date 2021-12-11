@@ -4,6 +4,9 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import DBSCAN
 from sklearn.manifold import TSNE
 import numpy as np
+import pandas as pd
+import plotly.express as px
+import os
 import matplotlib.pyplot as plt
 from sklearn import metrics
 import matplotlib
@@ -18,7 +21,7 @@ def _load_pkl(path):
     obj = pickle.load(f)
   return obj 
 #load data
-corpus_embeddings=_load_pkl('../ntu_data/Sample_dataset.pkl') 
+corpus_embeddings=_load_pkl('data/Sample_embeddings.pkl') 
 X = np.array(corpus_embeddings)
 ## PCA
 pca = PCA(n_components=2)
@@ -26,7 +29,13 @@ result = pca.fit_transform(X)
 labels=_load_pkl('data/label_Sample_dataset.pkl')
 interval=np.arange(0.5,0.86,0.01)
 header = ['eps', 'MinPts','Vscore', 'silhouette_coef', 'average', 'n_cluster']
-with open('./clustering_evaluation/clustering_evaluation_pca.csv', 'w', encoding='UTF8', newline='') as f:
+dirName = 'clustering_evaluation'
+if not os.path.exists(dirName):
+    os.mkdir(dirName)
+    print("Directory " , dirName ,  " Created ")
+else:    
+    print("Directory " , dirName ,  " already exists")
+with open('./clustering_evaluation/clustering_evaluation.csv', 'w', encoding='UTF8', newline='') as f:
   writer = csv.writer(f)
   writer.writerow(header)
   for e in interval:
@@ -35,7 +44,6 @@ with open('./clustering_evaluation/clustering_evaluation_pca.csv', 'w', encoding
       dbscan_opt=DBSCAN(eps=e, min_samples=m)
       dbscan_opt.fit(result)
       cluster_assignment=dbscan_opt.labels_
-      #metric
       Vscore=round(metrics.v_measure_score(labels,cluster_assignment),2)
       silhouette_coef=round(metrics.silhouette_score(result,cluster_assignment),2)
       avg=round((Vscore+silhouette_coef)/2,2)
@@ -44,3 +52,4 @@ with open('./clustering_evaluation/clustering_evaluation_pca.csv', 'w', encoding
       writer.writerow(data)
       print('(eps,MinPts)('+str(round(e,2))+' ,'+str(m)+',)= Vs: ',Vscore,\
            '; sil: ',silhouette_coef,'; avg: ', avg, '; n_clus: ', n_cluster,'\n')
+
