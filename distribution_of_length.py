@@ -15,7 +15,7 @@ def _load_pkl(path):
   with open(path, 'rb') as f:
     obj = pickle.load(f)
   return obj 
-train=_load_pkl('../ntu_data/DLU_without_coincide_text_train.pkl')#DLU_without_coincide_text_train
+train=_load_pkl('data/FVnC_dataset.pkl')#DLU_without_coincide_text_train
 print(len(train))  
 seq_len = [len(i.split()) for i in train]
 ts=pd.Series(seq_len).hist(color="b", bins=300)
