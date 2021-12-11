@@ -1,7 +1,7 @@
 from nltk.util import pr
 import pandas as pd
 import pickle
-import re
+import os
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize 
@@ -45,14 +45,20 @@ for paragraph in wiki_lst:
             label.append(odering)
     odering=odering+1
 print(len((clean_text)), len(label))
-#write file    
-train_textfile = open("dataset/train_wiki.txt", "w")
+#write file 
+dirName = 'data'   
+if not os.path.exists(dirName):
+    os.mkdir(dirName)
+    print("Directory " , dirName ,  " Created ")
+else:    
+    print("Directory " , dirName ,  " already exists")
+train_textfile = open("data/train_wiki.txt", "w")
 for element in clean_text:
     train_textfile.write(element + "\n")
 train_textfile.close()
-train_textfile = open("dataset/label_wiki.txt", "w")
+train_textfile = open("data/label_wiki.txt", "w")
 for element in label:
     train_textfile.write(str(element) + "\n")
 train_textfile.close()
-_save_pkl('dataset/train_wiki.pkl', clean_text)
-_save_pkl('dataset/label_wik.pkl', label)
+_save_pkl('data/train_wiki.pkl', clean_text)
+_save_pkl('data/label_wik.pkl', label)
